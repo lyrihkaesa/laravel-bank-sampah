@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             'phone' => '085738123456',
             'role' => 'admin',
             'password' => '$2y$10$LRwNfyUnjpOgX2o0vbvLiuM1oVTo9yx.MbHKoHWeazIc8bLEw9hNq', // password
-            'avatar' => 'default.png',
             'balance' => '0',
             'total_organic_weight' => '0',
             'total_inorganic_weight' => '0',

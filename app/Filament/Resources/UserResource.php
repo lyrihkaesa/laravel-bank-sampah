@@ -28,7 +28,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required(),
-                Forms\Components\TextInput::make('avatar'),
+                Forms\Components\FileUpload::make('avatar'),
                 Forms\Components\TextInput::make('role')
                     ->required(),
                 Forms\Components\TextInput::make('rt')
