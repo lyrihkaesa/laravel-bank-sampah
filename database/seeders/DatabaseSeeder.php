@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Kaesa Lyrih',
             'phone' => '085738123456',
             'role' => 'admin',
-            'password' => bcrypt('password'),
+            'password' => '$2y$10$LRwNfyUnjpOgX2o0vbvLiuM1oVTo9yx.MbHKoHWeazIc8bLEw9hNq', // password
             'avatar' => 'default.png',
             'balance' => '0',
             'total_organic_weight' => '0',
