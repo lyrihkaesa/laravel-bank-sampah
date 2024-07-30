@@ -28,7 +28,10 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required(),
-                Forms\Components\FileUpload::make('avatar'),
+                Forms\Components\FileUpload::make('avatar')
+                    ->image()
+                    ->avatar()
+                    ->directory('avatars'),
                 Forms\Components\TextInput::make('role')
                     ->required(),
                 Forms\Components\TextInput::make('rt')
@@ -52,9 +55,6 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->email(),
                 Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required(),
             ]);
     }
 
@@ -62,11 +62,11 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('avatar')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
                     ->searchable(),
