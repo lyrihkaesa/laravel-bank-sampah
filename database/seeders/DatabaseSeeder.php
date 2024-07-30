@@ -14,12 +14,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        $password = '$2y$10$LRwNfyUnjpOgX2o0vbvLiuM1oVTo9yx.MbHKoHWeazIc8bLEw9hNq';
 
         User::create([
             'name' => 'Kaesa Lyrih',
             'phone' => '085738123456',
             'role' => 'admin',
-            'password' => '$2y$10$LRwNfyUnjpOgX2o0vbvLiuM1oVTo9yx.MbHKoHWeazIc8bLEw9hNq', // password
+            'password' => $password,
             'balance' => '0',
             'total_organic_weight' => '0',
             'total_inorganic_weight' => '0',
@@ -29,6 +30,10 @@ class DatabaseSeeder extends Seeder
             'rw' => '01',
             'email' => 'admin@gmail.com',
 
+        ]);
+
+        $this->call([
+            WasteSeeder::class,
         ]);
     }
 }
