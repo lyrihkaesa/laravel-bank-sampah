@@ -49,10 +49,12 @@ class WasteResource extends Resource
                             ->label(__('Name'))
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('type')
+                        Forms\Components\ToggleButtons::make('type')
                             ->label(__('Type'))
+                            ->options(\App\Enums\WasteType::class)
+                            ->inline()
                             ->required()
-                            ->maxLength(255),
+                            ->default(\App\Enums\WasteType::ORGANIC),
                         Forms\Components\TextInput::make('price')
                             ->label(__('Price'))
                             ->required()
@@ -80,6 +82,7 @@ class WasteResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->label(__('Type'))
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label(__('Price'))
