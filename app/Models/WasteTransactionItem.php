@@ -26,4 +26,19 @@ class WasteTransactionItem extends Pivot
     {
         return $this->belongsTo(WasteTransaction::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($wasteTransactionItem) {
+            $wasteTransactionItem->price = $wasteTransactionItem->waste->price;
+            $wasteTransactionItem->total_price = $wasteTransactionItem->price * $wasteTransactionItem->weight;
+        });
+
+        static::updating(function ($wasteTransactionItem) {
+            $wasteTransactionItem->price = $wasteTransactionItem->waste->price;
+            $wasteTransactionItem->total_price = $wasteTransactionItem->price * $wasteTransactionItem->weight;
+        });
+    }
 }

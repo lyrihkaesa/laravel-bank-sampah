@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\WasteTransactionResource\Pages;
-use App\Filament\Resources\WasteTransactionResource\RelationManagers;
-use App\Models\WasteTransaction;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Waste;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Number;
+use App\Models\WasteTransaction;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\WasteTransactionResource\Pages;
+use App\Filament\Resources\WasteTransactionResource\RelationManagers;
 
 class WasteTransactionResource extends Resource
 {
@@ -46,7 +48,7 @@ class WasteTransactionResource extends Resource
                 Forms\Components\Section::make('Main')
                     ->schema([
                         Forms\Components\Select::make('user_id')
-                            ->label('User')
+                            ->label('Warga')
                             ->relationship('user', 'name')
                             ->required()
                             ->searchable()
@@ -91,23 +93,25 @@ class WasteTransactionResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('waste_id')
                             ->label(__('Waste'))
-                            ->relationship('waste', 'name')
+                            ->relationship('waste')
+                            ->getOptionLabelFromRecordUsing(fn (Waste $record) => $record->name . ' - ' . Number::currency($record->price, 'IDR'))
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\TextInput::make('price')
-                            ->label(__('Price'))
-                            ->prefix('Rp')
-                            ->numeric()
-                            ->required()
-                            ->minValue(0)
-                            ->default(0),
                         Forms\Components\TextInput::make('weight')
                             ->label(__('Weight'))
                             ->suffix('Kg')
                             ->numeric()
                             ->required()
                             ->minValue(0)
+                            ->default(0),
+                        Forms\Components\TextInput::make('total_price')
+                            ->label(__('Total Price'))
+                            ->prefix('Rp')
+                            ->numeric()
+                            ->required()
+                            ->minValue(0)
+                            ->disabled()
                             ->default(0),
                     ])
                     ->columns(3)

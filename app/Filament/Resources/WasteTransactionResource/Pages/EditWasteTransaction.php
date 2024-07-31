@@ -21,9 +21,15 @@ class EditWasteTransaction extends EditRecord
 
     protected function handleRecordUpdate(Model $record, $data): Model
     {
-
+        // dd('ini dijalankan');
+        $record->updateTotals();
         $record->update($data);
 
         return $record;
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('edit');
     }
 }
