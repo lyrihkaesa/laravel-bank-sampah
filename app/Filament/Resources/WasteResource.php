@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\WasteResource\Pages;
-use App\Filament\Resources\WasteResource\RelationManagers;
-use App\Models\Waste;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Waste;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\WasteResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\WasteResource\RelationManagers;
 
 class WasteResource extends Resource
 {
@@ -105,7 +106,25 @@ class WasteResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->action(function (Waste $record, array $data) {
+                        $oldRecord = $record->replicate();
+                        $record->update($data);
+
+                        if ($oldRecord->price !== $record->price) {
+                            $record->histories()->create([
+                                'admin_id' => auth()->id(),
+                                'name' => $record->name,
+                                'old_price' => $oldRecord->price,
+                                'new_price' => $record->price,
+                            ]);
+                        }
+
+                        Notification::make()
+                            ->title(__('Berhasil Memperbarui'))
+                            ->success()
+                            ->send();
+                    }),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),

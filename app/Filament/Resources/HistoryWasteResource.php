@@ -66,25 +66,26 @@ class HistoryWasteResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('waste.name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('admin.name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Waste Name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('new_price')
+                    ->label(__('New Price'))
                     ->numeric()
+                    ->color('success')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('old_price')
+                    ->label(__('Old Price'))
                     ->numeric()
+                    ->color('danger')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('admin.name')
+                    ->label(__('Admin Name'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label(__('Created At'))
+                    ->since()
+                    ->dateTimeTooltip()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -97,7 +98,8 @@ class HistoryWasteResource extends Resource
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),
                 // ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getPages(): array
