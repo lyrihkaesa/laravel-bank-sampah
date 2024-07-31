@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('admin_id')->nullable();
-            $table->unsignedBigInteger('total_waste_price');
-            $table->unsignedBigInteger('total_organic_price');
-            $table->unsignedBigInteger('total_inorganic_price');
-            $table->unsignedBigInteger('total_waste_weight');
-            $table->unsignedBigInteger('total_organic_weight');
-            $table->unsignedBigInteger('total_inorganic_weight');
+            $table->unsignedBigInteger('total_waste_price')->default(0);
+            $table->unsignedBigInteger('total_organic_price')->default(0);
+            $table->unsignedBigInteger('total_inorganic_price')->default(0);
+            $table->unsignedBigInteger('total_waste_weight')->default(0);
+            $table->unsignedBigInteger('total_organic_weight')->default(0);
+            $table->unsignedBigInteger('total_inorganic_weight')->default(0);
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
 

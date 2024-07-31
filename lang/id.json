@@ -32,5 +32,11 @@
     "New Price": "Harga Baru",
     "Old Price": "Harga Sebelumnya",
     "Admin Name": "Diubah Oleh",
-    "Created At": "Dibuat"
+    "Created At": "Dibuat",
+    "User Name": "Nama Anggota",
+    "Validator": "Validator",
+    "Total Waste Price": "Total Harga Sampah",
+    "Total Organic Price": "Total Harga Organik",
+    "Total Inorganic Price": "Total Harga An-organik",
+    "Waste Transaction": "Transaksi Sampah"
 }
