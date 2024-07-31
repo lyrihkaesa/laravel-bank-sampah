@@ -23,34 +23,48 @@ class WasteResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\FileUpload::make('thumbnail')
-                    ->image()
-                    ->directory('wastes'),
-            ]);
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label(__('Name'))
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('type')
+                            ->label(__('Type'))
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('price')
+                            ->label(__('Price'))
+                            ->required()
+                            ->numeric()
+                            ->prefix('Rp'),
+                    ]),
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\FileUpload::make('thumbnail')
+                            ->image()
+                            ->directory('wastes'),
+                    ]),
+            ])
+            ->columns(2);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('thumbnail')
+                    ->label(__('Thumbnail')),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label(__('Type'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money()
+                    ->label(__('Price'))
+                    ->money(currency: 'IDR', locale: 'id')
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
