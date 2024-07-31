@@ -142,18 +142,27 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->label(__('Phone'))
+                    ->badge()
+                    ->copyable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
                     ->label(__('Role'))
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rt')
                     ->label(__('RT'))
+                    ->badge()
+                    ->color('gray')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rw')
                     ->label(__('RW'))
+                    ->badge()
+                    ->color('gray')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('village')
                     ->label(__('Village'))
+                    ->badge()
+                    ->color('pink')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_balance')
                     ->label(__('Total Balance'))
