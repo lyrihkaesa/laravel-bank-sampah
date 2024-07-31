@@ -2,5 +2,6 @@
     "Name": "Nama",
     "Type": "Tipe",
     "Price": "Harga",
-    "Thumbnail": "Thumbnail"
+    "Thumbnail": "Thumbnail",
+    "Waste": "Sampah"
 }

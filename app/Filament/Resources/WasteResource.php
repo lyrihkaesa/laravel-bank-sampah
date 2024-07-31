@@ -17,7 +17,27 @@ class WasteResource extends Resource
 {
     protected static ?string $model = Waste::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+
+    public static function getNavigationSort(): ?int
+    {
+        return \App\Utilities\FilamentUtility::getNavigationSort(__('Waste'));
+    }
+
+    // public static function getNavigationGroup(): ?string
+    // {
+    //     return __('Product');
+    // }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Waste');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Waste');
+    }
 
     public static function form(Form $form): Form
     {
