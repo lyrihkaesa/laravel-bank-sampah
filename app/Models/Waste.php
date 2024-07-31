@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\WasteType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Waste extends Model
@@ -23,5 +24,10 @@ class Waste extends Model
         return [
             'type' => WasteType::class,
         ];
+    }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(HistoryWaste::class);
     }
 }

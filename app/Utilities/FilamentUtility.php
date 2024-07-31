@@ -15,6 +15,7 @@ class FilamentUtility
             1 => __('Profile'),
             2 => __('Waste'),
             3 => __('User'),
+            4 => __('History Waste'),
         ];
 
         $key = array_search($label, $navigationSort);

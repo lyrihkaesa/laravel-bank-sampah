@@ -26,5 +26,6 @@
     "Warga": "Warga",
     "Admin": "Admin",
     "Password Helper Text Create": "Kata sandi harus lebih dari 8 karakter. Jika tidak diisi, kami akan buatkan otomatis. Formatnya adalah nama depan huruf kecil ditambah 4 angka terakhir nomor telepon, misalnya: 090920021919.",
-    "Password Helper Text Edit": "Kata sandi harus lebih dari 8 karakter. Jika tidak diisi, maka kata sandi tidak akan berubah."
+    "Password Helper Text Edit": "Kata sandi harus lebih dari 8 karakter. Jika tidak diisi, maka kata sandi tidak akan berubah.",
+    "History Waste": "Riwayat Sampah"
 }
