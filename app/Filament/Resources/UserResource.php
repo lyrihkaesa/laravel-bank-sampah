@@ -17,44 +17,116 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    public static function getNavigationSort(): ?int
+    {
+        return \App\Utilities\FilamentUtility::getNavigationSort(__('User'));
+    }
+
+    // public static function getNavigationGroup(): ?string
+    // {
+    //     return __('Product');
+    // }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('User');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('User');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->required(),
-                Forms\Components\FileUpload::make('avatar')
-                    ->image()
-                    ->avatar()
-                    ->directory('avatars'),
-                Forms\Components\TextInput::make('role')
-                    ->required(),
-                Forms\Components\TextInput::make('rt')
-                    ->required(),
-                Forms\Components\TextInput::make('rw')
-                    ->required(),
-                Forms\Components\TextInput::make('village')
-                    ->required(),
-                Forms\Components\TextInput::make('balance')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('total_organic_weight')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('total_inorganic_weight')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('total_waste_weight')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('email')
-                    ->email(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\Section::make(__('Personal Information'))
+                    ->schema([
+                        Forms\Components\FileUpload::make('avatar')
+                            ->label(__('Avatar'))
+                            ->image()
+                            ->avatar()
+                            ->directory('avatars')
+                            ->columnSpan(1),
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label(__('Name'))
+                                    ->required()
+                                    ->columnSpanFull(),
+                                Forms\Components\ToggleButtons::make('role')
+                                    ->label(__('Role'))
+                                    ->options(\App\Enums\UserRole::class)
+                                    ->inline()
+                                    ->required()
+                                    ->default(\App\Enums\UserRole::WARGA),
+                                Forms\Components\TextInput::make('phone')
+                                    ->label(__('Phone'))
+                                    ->tel()
+                                    ->required(),
+                            ])
+                            ->columnSpan(2)
+                            ->columns(2),
+                    ])
+                    ->columns(3),
+                Forms\Components\Section::make(__('Address Information'))
+                    ->schema([
+                        Forms\Components\TextInput::make('rt')
+                            ->label(__('RT'))
+                            ->required()
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('rw')
+                            ->label(__('RW'))
+                            ->required()
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('village')
+                            ->label(__('Village'))
+                            ->required()
+                            ->columnSpan(2),
+                    ])
+                    ->columns(4),
+                Forms\Components\Section::make(__('Contact and Security Information'))
+                    ->schema([
+                        Forms\Components\TextInput::make('email')
+                            ->label(__('Email'))
+                            ->email(),
+                        Forms\Components\TextInput::make('password')
+                            ->label(__('Password'))
+                            ->password()
+                            ->revealable()
+                            ->helperText(function (string $operation, Forms\Get $get) {
+                                if ($operation === 'create') {
+                                    return __('Password Helper Text Create');
+                                }
+                                if ($operation === 'edit') {
+                                    return __('Password Helper Text Edit');
+                                }
+                            }),
+                    ])
+                    ->columns(2),
+                Forms\Components\Section::make(__('Statistic'))
+                    ->schema([
+                        Forms\Components\TextInput::make('total_balance')
+                            ->label(__('Total Balance'))
+                            ->disabled()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('total_waste_weight')
+                            ->label(__('Total Waste Weight'))
+                            ->disabled()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('total_organic_weight')
+                            ->label(__('Total Organic Weight'))
+                            ->disabled()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('total_inorganic_weight')
+                            ->label(__('Total Inorganic Weight'))
+                            ->disabled()
+                            ->numeric(),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -63,36 +135,53 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')
+                    ->label(__('Avatar'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label(__('Phone'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
+                    ->label(__('Role'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rt')
+                    ->label(__('RT'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rw')
+                    ->label(__('RW'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('village')
+                    ->label(__('Village'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('balance')
+                Tables\Columns\TextColumn::make('total_balance')
+                    ->label(__('Total Balance'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_organic_weight')
+                    ->label(__('Total Organic Weight'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_inorganic_weight')
+                    ->label(__('Total Inorganic Weight'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_waste_weight')
+                    ->label(__('Total Waste Weight'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

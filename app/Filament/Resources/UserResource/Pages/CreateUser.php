@@ -2,11 +2,23 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\UserResource;
 use Filament\Actions;
+use Illuminate\Database\Eloquent\Model;
+use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
+
+    protected function handleRecordCreation(array $data): Model
+    {
+        // Generate password
+        $password = $data['password'] ?? \App\Utilities\PasswordUtility::generatePassword($data['name'], $data['phone']);
+
+        // Create Student
+        $record = static::getModel()::create($data);
+
+        return $record;
+    }
 }
