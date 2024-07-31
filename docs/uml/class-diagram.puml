@@ -1,0 +1,90 @@
+@startuml "Class Diagram"
+class User { 
+    id int
+    name string
+    phone string
+    string role
+    string rt
+    string rw
+    string village
+    string avatar
+    password string
+    total_balance int
+    total_organic_weight int
+    total_inorganic_weight int
+    total_waste_weight int
+    updated_at timestamp
+    created_at timestamp
+    deleted_at timestamp
+
+    transaction(): BelongToMany
+    historyWaste(): BelongToMany
+}  
+
+class Waste{ 
+    id int
+    name string
+    price int
+    thumbnail string    
+    updated_at timestamp
+    created_at timestamp
+    deleted_at timestamp
+
+    historyWaste(): BelongToMany
+}  
+
+class HistoryWaste { 
+    id int
+    waste_id int <<FK>>
+    admin_id int <<FK>>
+    name string
+    new_price int
+    old_price int
+    thumbnail string
+    updated_at timestamp
+    created_at timestamp
+
+    waste(): BelongTo
+    admin(): BelongTo
+}  
+
+class Transaction { 
+    id int
+    userId int <<FK>>
+    admin_id? int <<FK>>
+    total_price int
+    total_organic_price int
+    total_inorganic_price int
+    total_weight int
+    total_organic_weight int
+    total_inorganic_weight int
+    verified_at? timestamp
+    updated_at timestamp
+    created_at timestamp
+
+    user(): BelongTo
+    admin(): BelongTo
+}
+
+class TransactionItem { 
+    id int
+    waste_id int <<FK>>
+    transactionId <<FK>>
+    price int
+    weight int
+    total_price int
+    updated_at timestamp
+    created_at timestamp
+
+    waste(): BelongTo
+    transaction(): BelongTo
+}    
+
+User -- Transaction 
+User -- HistoryWaste
+
+Waste -- HistoryWaste
+Waste -- TransactionItem
+
+Transaction -- TransactionItem
+@enduml
