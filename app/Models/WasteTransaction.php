@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class WasteTransaction extends Model
 {
@@ -30,5 +31,12 @@ class WasteTransaction extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function wastes(): BelongsToMany
+    {
+        return $this->belongsToMany(Waste::class, 'waste_transaction_item', 'waste_transaction_id', 'waste_id')
+            ->withPivot('weight', 'price', 'total_price')
+            ->withTimestamps();
     }
 }
