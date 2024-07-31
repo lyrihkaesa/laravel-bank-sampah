@@ -38,5 +38,10 @@
     "Total Waste Price": "Total Harga Sampah",
     "Total Organic Price": "Total Harga Organik",
     "Total Inorganic Price": "Total Harga An-organik",
-    "Waste Transaction": "Transaksi Sampah"
+    "Waste Transaction": "Transaksi Sampah",
+    "Weight": "Berat",
+    "Verified": "Terverifikasi",
+    "Verified At": "Tanggal Verifikasi",
+    "Total Price": "Total Harga",
+    "Total Weight": "Total Berat"
 }

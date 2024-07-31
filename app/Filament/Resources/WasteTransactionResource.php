@@ -46,14 +46,18 @@ class WasteTransactionResource extends Resource
                 Forms\Components\Section::make('Main')
                     ->schema([
                         Forms\Components\Select::make('user_id')
+                            ->label('User')
                             ->relationship('user', 'name')
                             ->required()
                             ->searchable()
-                            ->disabled(auth()->user()->role === \App\Enums\UserRole::WARGA),
+                            ->disabled(auth()->user()->role === \App\Enums\UserRole::WARGA)
+                            ->default(auth()->id()),
                         Forms\Components\Select::make('admin_id')
+                            ->label('Validator')
                             ->relationship('admin', 'name')
                             ->disabled(),
                         Forms\Components\DateTimePicker::make('verified_at')
+                            ->label(__('Verified At'))
                             ->disabled(),
                     ])
                     ->columns(3),
@@ -79,7 +83,35 @@ class WasteTransactionResource extends Resource
                             ->numeric()
                             ->disabled(),
                     ])
-                    ->columns(3),
+                    ->columns(3)
+                    ->hidden(fn (string $operation) => $operation === 'create'),
+                Forms\Components\Repeater::make('wasteTransactionItems')
+                    ->label(__('Waste'))
+                    ->relationship('wasteTransactionItems')
+                    ->schema([
+                        Forms\Components\Select::make('waste_id')
+                            ->label(__('Waste'))
+                            ->relationship('waste', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\TextInput::make('price')
+                            ->label(__('Price'))
+                            ->prefix('Rp')
+                            ->numeric()
+                            ->required()
+                            ->minValue(0)
+                            ->default(0),
+                        Forms\Components\TextInput::make('weight')
+                            ->label(__('Weight'))
+                            ->suffix('Kg')
+                            ->numeric()
+                            ->required()
+                            ->minValue(0)
+                            ->default(0),
+                    ])
+                    ->columns(3)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -96,7 +128,7 @@ class WasteTransactionResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_waste_price')
-                    ->label(__('Total Waste Price'))
+                    ->label(__('Total Price'))
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
@@ -111,7 +143,7 @@ class WasteTransactionResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('total_waste_weight')
-                    ->label(__('Total Waste Weight'))
+                    ->label(__('Total Weight'))
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),

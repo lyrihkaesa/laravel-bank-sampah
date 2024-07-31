@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\WasteTransactionResource\Pages;
 
-use App\Filament\Resources\WasteTransactionResource;
 use Filament\Actions;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\WasteTransactionResource;
 
 class EditWasteTransaction extends EditRecord
 {
@@ -16,5 +17,13 @@ class EditWasteTransaction extends EditRecord
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function handleRecordUpdate(Model $record, $data): Model
+    {
+
+        $record->update($data);
+
+        return $record;
     }
 }
